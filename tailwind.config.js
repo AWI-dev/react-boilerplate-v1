@@ -9,7 +9,9 @@ export default {
   ],
   theme: {
     extend: {
-
+      fontFamily: {
+        body: ['Poppins', 'sans'],
+      },
       colors: {
         cta: "#1B3140",
         background: "#EFEFEF",

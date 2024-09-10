@@ -3,7 +3,7 @@ import PageNotFoundImage from "../../assets/Images/404.png";
 
 function PageNotFound() {
   return (
-    <div className=" light:bg-white dark:text-csPrimary  flex  mx-auto w-4/5 items-center my-auto min-h-screen">
+    <div className="font-body light:bg-white dark:text-csPrimary  flex  mx-auto w-4/5 items-center my-auto min-h-screen">
       <div className="pl-10 ">
         <p className="text-7xl font-semibold leading-snug">
           <span className="font-bold text-csSecondary ">

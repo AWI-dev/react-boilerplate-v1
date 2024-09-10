@@ -1,6 +1,5 @@
-import React from "react";
 import {
-  Switch,
+  // Switch,
   useSwitch,
   VisuallyHidden,
   SwitchProps,
