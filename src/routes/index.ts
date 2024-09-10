@@ -15,6 +15,20 @@ const coreRoutes = [
             () => import("../pages/Account/AccountList")
         ),
     },
+    {
+        path: "/system-management",
+        title: "System Management",
+        component: lazy(
+            () => import("../pages/SystemManagement/Systems")
+        ),
+    },
+    {
+        path: "/system-management-dashboard/:system?",
+        title: "System Management-dashboard",
+        component: lazy(
+            () => import("../pages/SystemManagement/SystemManagementDashboard")
+        ),
+    },
 
 
 ];
