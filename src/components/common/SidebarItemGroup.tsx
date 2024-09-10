@@ -26,7 +26,7 @@ const SidebarItemGroup: React.FC<TSidebarItemGroupProps> = ({
           `}
         >
           {icon}
-          <p className="text-md font-medium">{title}</p>
+          <p className="text-sm font-medium">{title}</p>
           <ChevronDown
             className={`absolute right-2 transition-transform duration-300 ${
               isOpenMenu ? "rotate-180" : "rotate-0"
@@ -45,7 +45,7 @@ const SidebarItemGroup: React.FC<TSidebarItemGroupProps> = ({
             <NavLink
               to={item.path}
               className={({ isActive }) =>
-                `indent-8 block py-1 px-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 ${
+                `indent-8 block py-1 px-2 text-sm rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 ${
                   isActive ? "bg-gray-200 dark:bg-gray-600" : ""
                 }`
               }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@nextui-org/react";
-import { LayoutGrid, PanelLeftClose, User, Settings } from "lucide-react";
+import { LayoutGrid, PanelLeftClose, User, Settings, MonitorCog } from "lucide-react";
 import Logo from "./Logo";
 import SidebarItem from "./SidebarItem";
 import SidebarItemGroup from "./SidebarItemGroup";
@@ -29,6 +29,11 @@ function Sidebar() {
               title="Accounts"
               path="/accounts"
               icon={<User size={24} />}
+            />
+                 <SidebarItem
+              title="System Management"
+              path="/system-management"
+              icon={<MonitorCog size={24} />}
             />
             <SidebarItemGroup
               title="Settings"

@@ -13,7 +13,7 @@ const MainLayout = () => {
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <Topbar/>
           {/* <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-            <div className="mx-auto p-5 md:p-5 2xl:p-5 dark:bg-[#1D2328] ">
+            <div className=" p-5 md:p-5 2xl:p-5 dark:bg-[#1D2328] ">
               <Outlet />
             </div>
         </div>

@@ -1,5 +1,4 @@
 import {
-  // Switch,
   useSwitch,
   VisuallyHidden,
   SwitchProps,
