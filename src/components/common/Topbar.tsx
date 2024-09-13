@@ -11,7 +11,7 @@ import ThemeSwitch from "../ThemeSwitcher";
 
 function Topbar() {
   return (
-    <header className="sticky top-0 z-40 py-4 flex justify-between w-full bg-accentwhite dark:bg-[#0D0D0D] drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none shadow-md">
+    <header className="drop-shadow-xl sticky top-0 z-40 py-4 flex justify-between w-full bg-accentwhite dark:bg-[#0D0D0D] drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none shadow-md">
       <ThemeSwitch className="pl-4"/>
       <div className="flex items-center gap-4 pr-5">
         <Dropdown placement="bottom-start">
