@@ -15,8 +15,8 @@ function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const accountItem = [
-    { title: "User", path: "/users" },
-    { title: "Manage", path: "/manage" },
+    { title: "User", path: "/users", icon: "" },
+    { title: "Manage", path: "/manage", icon: "" },
   ];
 
   const toggleSidebar = () => setIsOpen(!isOpen);
