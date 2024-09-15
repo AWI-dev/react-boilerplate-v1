@@ -1,8 +1,17 @@
+import Breadcrumb from "../../components/common/Breadcrumb";
 
 function AccountList() {
   return (
-    <div>AccountList</div>
-  )
+    <>
+      <Breadcrumb
+        pageName="Account"
+        items={[
+          { name: "Dashboard", path: "/" },
+          { name: "Account" },
+        ]}
+      />
+    </>
+  );
 }
 
-export default AccountList
+export default AccountList;

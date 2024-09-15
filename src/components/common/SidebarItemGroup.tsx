@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { TSidebarItemGroupProps } from "../../lib/types";
+import { TSidebarItemGroupProps } from "../../lib/Type/CommonTypes";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 

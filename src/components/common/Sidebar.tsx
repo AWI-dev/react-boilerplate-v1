@@ -63,13 +63,6 @@ function Sidebar() {
           <Logo className="w-14" />
         </div>
         <RenderSidebarMenu />
-        {/*   <Button
-          isIconOnly
-          onClick={toggleSidebar}
-          className="absolute right-[-20px] top-0 z-0  bg-transparent mt-4"
-        >
-          <PanelLeftClose size={18} />
-        </Button> */}
       </div>
       {/* Mobile View */}
       {/* Web View */}

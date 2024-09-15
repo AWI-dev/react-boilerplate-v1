@@ -1,5 +1,5 @@
 import { NextUIProvider } from "@nextui-org/react";
-import { TProviderProps } from "./lib/types";
+import { TProviderProps } from "./lib/Type/CommonTypes";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
