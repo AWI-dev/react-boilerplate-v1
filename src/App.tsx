@@ -6,7 +6,6 @@ import routes from "./routes";
 import MainLayout from "./components/layout/MainLayout";
 import Auth from "./pages/Auth/Auth";
 import PageNotFound from "./pages/Common/PageNotFound";
-
 function App() {
   return (
     <>
