@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { TSidebarItemProps } from "../../lib/Type/CommonTypes";
+import { TSidebarItemProps } from "../../lib/Type/commonTypes";
 
 const SidebarItem: React.FC<TSidebarItemProps> = ({ title, path, icon }) => {
   const { pathname } = useLocation();

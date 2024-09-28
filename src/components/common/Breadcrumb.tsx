@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { BreadcrumbProps } from "../../lib/Type/CommonTypes";
+import { BreadcrumbProps } from "../../lib/Type/commonTypes";
 
 
 

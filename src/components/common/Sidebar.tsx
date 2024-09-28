@@ -5,7 +5,6 @@ import {
   PanelLeftClose,
   User,
   Settings,
-  MonitorCog,
 } from "lucide-react";
 import Logo from "./Logo";
 import SidebarItem from "./SidebarItem";
@@ -35,11 +34,6 @@ function Sidebar() {
               title="Accounts"
               path="/accounts"
               icon={<User size={24} />}
-            />
-            <SidebarItem
-              title="System Management"
-              path="/system-management"
-              icon={<MonitorCog size={24} />}
             />
             <SidebarItemGroup
               title="Settings"

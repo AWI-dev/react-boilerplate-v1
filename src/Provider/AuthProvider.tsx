@@ -1,85 +1,32 @@
-/* import { getUser, login } from '@/api/auth';
-import { User } from '@/types/user';
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect } from "react";
+import { API_BASE_URL } from "../lib/constant";
+// import useCrud from "../hooks/useCrud";
+import { TPrivateRouteProps } from "../lib/Type/systemTypes";
+// import { useAccessTokenState } from "../lib/StateManager/storeState";
 
-type AuthContext = {
-  authToken?: string | null;
-  currentUser?: User | null;
-  handleLogin: () => Promise<void>;
-  handleLogout: () => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContext | undefined>(undefined);
-
-type AuthProviderProps = PropsWithChildren;
-
-export default function AuthProvider({ children }: AuthProviderProps) {
-  const [authToken, setAuthToken] = useState<string | null>();
-  const [currentUser, setCurrentUser] = useState<User | null>();
+const AuthProvider = ({ children }: TPrivateRouteProps) => {
+ /*  const { GET } = useCrud();
+  const { setAccessToken } = useAccessTokenState(); */
 
   useEffect(() => {
-    async function fetchUser() {
+    // setAccessToken("your-token-here");
+
+     const fetchToken = async () => {
       try {
-        const response = await getUser();
-
-        const { authToken, user } = response[1];
-
-        setAuthToken(authToken);
-        setCurrentUser(user);
-      } catch {
-        setAuthToken(null);
-        setCurrentUser(null);
+        const response = await fetch(API_BASE_URL + "refresh_token");
+        const data = await response.json();
+        console.log('data', data);
+        
+        // setAccessToken(data.accessToken);
+      } catch (error) {
+        console.error(error);
       }
-    }
+    };
 
-    fetchUser();
+    fetchToken();
   }, []);
 
-  async function handleLogin() {
-    try {
-      const response = await login();
+  return <>{children}</>;
+};
 
-      const { authToken, user } = response[1];
-
-      setAuthToken(authToken);
-      setCurrentUser(user);
-    } catch {
-      setAuthToken(null);
-      setCurrentUser(null);
-    }
-  }
-
-  async function handleLogout() {
-    setAuthToken(null);
-    setCurrentUser(null);
-  }
-
-  return (
-    <AuthContext.Provider
-      value={{
-        authToken,
-        currentUser,
-        handleLogin,
-        handleLogout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (context === undefined) {
-    throw new Error('useAuth must be used inside of a AuthProvider');
-  }
-
-  return context;
-} */
+export default AuthProvider;

@@ -1,6 +1,6 @@
 import { cn } from "@nextui-org/react";
 import IconLogo from "../../assets/Images/logo.png";
-import { TLogoProps } from "../../lib/Type/CommonTypes";
+import { TLogoProps } from "../../lib/Type/commonTypes";
 
 const Logo: React.FC<TLogoProps> = ({ className }) => {
   return (
