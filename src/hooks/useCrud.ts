@@ -1,76 +1,82 @@
 import { useRef } from "react";
-/* import useApiResponse from "./useApiResponse";
-import useToast from "./useToast"; */
 import { useAccessTokenState } from "../lib/StateManager/storeState";
+import { RequestData } from "../lib/Type/systemTypes";
+
 const useCrud = () => {
-    // const { showToast } = useToast();
-    // const { handleApiResponse } = useApiResponse();
+
+
     const { accessToken } = useAccessTokenState();
 
-    /*  const handleError = (error: any) => {
-         showToast(error.message || "An unexpected error occurred", "warning");
-     }; */
-    const controllerRef = useRef<AbortController>();
+    const controllerRef = useRef<AbortController | null>(null);
 
     const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        "Authorization": `Bearer ${accessToken}`,
     };
 
-    //#region CRUD
-    const GET = async (endpoint: string, isAbortController: boolean = true) => {
+    const prepareAbortController = (isAbortController: boolean) => {
         if (isAbortController) {
-            if (controllerRef.current) {
-                controllerRef.current.abort();
-            }
-            controllerRef.current = new AbortController();
+            controllerRef.current?.abort();  // Abort the previous request if it exists
+            controllerRef.current = new AbortController();  // Create a new controller
+            return controllerRef.current.signal;  // Return the signal to attach to the request
         }
-        const signal = isAbortController
-            ? controllerRef.current?.signal
-            : undefined;
+        return undefined;
+    };
+
+    const handleError = (error: any) => {
+        console.error("Error caught:", error?.message);
+        throw error;
+    };
+
+    //#region CRUD Methods
+    const GET = async (endpoint: string, isAbortController: boolean = true) => {
+        const signal = prepareAbortController(isAbortController);
+        console.log('accessToken', accessToken);
         try {
             const response = await fetch(endpoint, {
                 method: "GET",
-                headers: headers,
+                headers,
                 signal,
             });
-            return response.json();
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                handleError(errorData);
+            }
+
+            return await response.json();
         } catch (error: any) {
-            console.log("Error caught:", error?.message);
+            handleError(error);
         }
     };
-
-    type RequestData = Record<string, any>;
-
     const POST = async (
         endpoint: string,
-        formData: RequestData,
+        requestData: RequestData | FormData,
         isAbortController: boolean = true
     ) => {
-        if (isAbortController) {
-            if (controllerRef.current) {
-                controllerRef.current.abort();
-            }
-            controllerRef.current = new AbortController();
-        }
-        const signal = isAbortController
-            ? controllerRef.current?.signal
-            : undefined;
+        const signal = prepareAbortController(isAbortController);
+        const requestOptions: RequestInit = {
+            method: "POST",
+            headers: requestData instanceof FormData ? {} : headers, // Do not set Content-Type for FormData
+            body: requestData instanceof FormData ? requestData : JSON.stringify(requestData),
+            signal,
+        };
         try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: headers,
-                body: (formData instanceof FormData ? formData : JSON.stringify(formData)),
-                signal,
-            });
-            return response.json();
+            const response = await fetch(endpoint, requestOptions);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                handleError(errorData);
+            }
+
+            return await response.json();
         } catch (error: any) {
-            console.log("Error caught:", error?.message);
+            console.error("Error caught:", error?.message);
+            handleError(error);
         }
     };
     //#endregion
-
     return { GET, POST };
+};
 
-}
 export default useCrud;

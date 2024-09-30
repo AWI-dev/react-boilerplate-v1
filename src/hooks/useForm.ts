@@ -10,14 +10,9 @@ type UseFormReturn<T> = {
     fetchAndSetFormData: (endpoint: string) => Promise<void>;
     resetFormData: () => void;
 };
-
 const useForm = <T extends Record<string, any>>(initialState: T): UseFormReturn<T> => {
-const { GET } = useCrud();
-
+    const { GET } = useCrud();
     const [formData, setFormData] = useState<T>(initialState);
-
-    console.log('formData', formData);
-    
 
     // Handle input and textarea changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

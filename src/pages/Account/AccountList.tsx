@@ -21,14 +21,11 @@ function AccountList() {
     e.preventDefault();
     // setIsLoading(true);
     const data = createFormData();
-    console.log("data", data);
     await POST(API_BASE_URL + "login", data).then((res: any) => {
-      console.log("res", res);
       try {
         const response = fetch(API_BASE_URL + "refresh_token");
         const data = response;
         console.log("data", data);
-
         // setAccessToken(data.accessToken);
       } catch (error) {
         console.error(error);

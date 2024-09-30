@@ -7,9 +7,12 @@ import MainLayout from "./components/layout/MainLayout";
 import Auth from "./pages/Auth/Auth";
 import PageNotFound from "./pages/Common/PageNotFound";
 import AuthProvider from "./Provider/AuthProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
+      <ToastContainer bodyClassName="font-body text-xs" />
       <Routes>
         <Route path="/login" element={<Auth />} />
         <Route element={<MainLayout />}>

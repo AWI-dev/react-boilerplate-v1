@@ -15,6 +15,9 @@ export type TAuthProps = {
     password: string;
 }
 
+export type RequestData = Record<string, any>;
+
+
 //#region
 
 //#endregion
