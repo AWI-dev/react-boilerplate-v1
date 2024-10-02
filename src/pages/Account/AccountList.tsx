@@ -5,8 +5,11 @@ import useForm from "../../hooks/useForm";
 import { TAuthProps } from "../../lib/Type/systemTypes";
 import { API_BASE_URL } from "../../lib/constant";
 import useCrud from "../../hooks/useCrud";
+import useDataFetcher from "../../hooks/useDataFetcher";
 
 function AccountList() {
+  // const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`);
+
   const [counter, setCounter] = useState(0);
   const { POST } = useCrud();
 
@@ -21,11 +24,14 @@ function AccountList() {
     e.preventDefault();
     // setIsLoading(true);
     const data = createFormData();
+    console.log("data", data);
     await POST(API_BASE_URL + "login", data).then((res: any) => {
+      console.log("res", res);
       try {
         const response = fetch(API_BASE_URL + "refresh_token");
         const data = response;
         console.log("data", data);
+
         // setAccessToken(data.accessToken);
       } catch (error) {
         console.error(error);
@@ -33,6 +39,7 @@ function AccountList() {
     });
   };
 
+  
   return (
     <>
       <Breadcrumb

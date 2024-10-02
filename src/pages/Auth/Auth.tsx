@@ -5,11 +5,13 @@ import { useState } from "react";
 import useCrud from "../../hooks/useCrud";
 import { TAuthProps } from "../../lib/Type/systemTypes";
 import useForm from "../../hooks/useForm";
-import { API_BASE_URL } from "../../lib/constant";
+import { API_BASE_URL, SHARED_KEY } from "../../lib/constant";
 import sideImage from "../../assets/images/vlc.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useToast from "../../hooks/useToast";
 import { useAccessTokenState } from "../../lib/StateManager/storeState";
+import useEncryption from "../../hooks/useEncryption";
+import useCookie from "../../hooks/useCookie";
 
 function Auth() {
   //#region Intialize
@@ -22,12 +24,15 @@ function Auth() {
   //#region State
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const { setAccessToken } = useAccessTokenState();
+  const { setAccessToken, accessToken } = useAccessTokenState();
   //#endregion
 
   //#region Hooks
+  const navigate = useNavigate();
   const { POST, GET } = useCrud();
   const { showToast } = useToast();
+  const { encryptData, decryptData } = useEncryption(SHARED_KEY);
+  const { setCookie, getCookie } = useCookie();
 
   const { handleInputChange, createFormData } =
     useForm<TAuthProps>(initialFormState);
@@ -35,7 +40,10 @@ function Auth() {
   //#endregion
 
   //#region Function
-
+  function setToken(access_token: string, refresh_token: string) {
+    setAccessToken(access_token);
+    setCookie("base", encryptData(refresh_token));
+  }
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
@@ -43,13 +51,10 @@ function Auth() {
     await POST(API_BASE_URL + "login", data).then((res: any) => {
       try {
         setIsLoading(false);
-        console.log("res", res);
         if (res.success) {
           showToast(res.message, "success");
-          setAccessToken(res.data.access_token);
-          GET(API_BASE_URL + "products").then((res: any) => {
-            console.log("res", res);
-          });
+          setToken(res.data.token.access_token, res.data.token.refresh_token);
+          navigate("/accounts");
         } else {
           showToast(res.message, "error");
         }
@@ -58,6 +63,20 @@ function Auth() {
         console.error(error);
       }
     });
+  };
+  const handleRefreshToken = async () => {
+    const decryptedRefreshToken = decryptData(getCookie("base"));
+    await GET(API_BASE_URL + `refresh_token/${decryptedRefreshToken}`).then(
+      (res: any) => {
+        try {
+          setIsLoading(false);
+          setToken(res.data.token.access_token, res.data.token.refresh_token);
+        } catch (error) {
+          setIsLoading(false);
+          console.error(error);
+        }
+      }
+    );
   };
   //#endregion
 
@@ -74,11 +93,17 @@ function Auth() {
             <div className="text-csPrimary text-3xl 3xl:text-5xl font-bold font-header mt-2 mb-10">
               AWI Solutions
             </div>
+            <Button
+              onClick={handleRefreshToken}
+              type="submit"
+              className="bg-cta text-white py-6"
+            ></Button>
             <Card radius="sm" fullWidth>
               <CardBody className="p-10 w-full py-10">
                 <div className="font-body text-xl font-bold text-start mb-10">
                   Welcome Back!
                 </div>
+
                 <form onSubmit={handleSubmit}>
                   <div className="font-body flex flex-col gap-y-5">
                     <Input

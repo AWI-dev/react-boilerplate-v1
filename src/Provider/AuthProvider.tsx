@@ -1,30 +1,35 @@
 import { useEffect } from "react";
-import { API_BASE_URL } from "../lib/constant";
-// import useCrud from "../hooks/useCrud";
+import { API_BASE_URL, SHARED_KEY } from "../lib/constant";
+import useCrud from "../hooks/useCrud";
 import { TPrivateRouteProps } from "../lib/Type/systemTypes";
-// import { useAccessTokenState } from "../lib/StateManager/storeState";
+import { useAccessTokenState } from "../lib/StateManager/storeState";
+import useEncryption from "../hooks/useEncryption";
+import useCookie from "../hooks/useCookie";
 
 const AuthProvider = ({ children }: TPrivateRouteProps) => {
- /*  const { GET } = useCrud();
-  const { setAccessToken } = useAccessTokenState(); */
+  const { GET } = useCrud();
+  const { setAccessToken, accessToken } = useAccessTokenState();
 
+  const { encryptData, decryptData } = useEncryption(SHARED_KEY);
+  const { setCookie, getCookie } = useCookie();
   useEffect(() => {
-    // setAccessToken("your-token-here");
-
-     const fetchToken = async () => {
-      try {
-        const response = await fetch(API_BASE_URL + "refresh_token");
-        const data = await response.json();
-        console.log('data', data);
-        
-        // setAccessToken(data.accessToken);
-      } catch (error) {
-        console.error(error);
-      }
+    const fetchToken = async () => {
+      const decryptedRefreshToken = decryptData(getCookie("base"));
+      await GET(API_BASE_URL + `refresh_token/${decryptedRefreshToken}`).then(
+        (res: any) => {
+          try {
+            setAccessToken(res.data.token.access_token);
+            setCookie("base", encryptData(res.data.token.refresh_token));
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      );
     };
-
-    fetchToken();
-  }, []);
+    if (!accessToken) {
+      fetchToken();
+    }
+  }, [accessToken]);
 
   return <>{children}</>;
 };

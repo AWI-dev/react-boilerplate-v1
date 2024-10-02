@@ -4,13 +4,12 @@ import { RequestData } from "../lib/Type/systemTypes";
 
 const useCrud = () => {
 
-
     const { accessToken } = useAccessTokenState();
 
     const controllerRef = useRef<AbortController | null>(null);
 
     const headers = {
-        "Content-Type": "application/json",
+        "Accept": "application/json",
         "Authorization": `Bearer ${accessToken}`,
     };
 
