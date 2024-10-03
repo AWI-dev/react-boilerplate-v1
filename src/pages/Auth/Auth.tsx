@@ -24,7 +24,7 @@ function Auth() {
   //#region State
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const { setAccessToken, accessToken } = useAccessTokenState();
+  const { setAccessToken } = useAccessTokenState();
   //#endregion
 
   //#region Hooks
@@ -54,8 +54,8 @@ function Auth() {
         if (res.success) {
           showToast(res.message, "success");
           setToken(res.data.token.access_token, res.data.token.refresh_token);
-          console.log('refresh_token', res.data.token.refresh_token);
-          
+          console.log("refresh_token", res.data.token.refresh_token);
+
           navigate("/accounts");
         } else {
           showToast(res.message, "error");

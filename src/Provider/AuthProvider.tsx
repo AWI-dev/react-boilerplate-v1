@@ -19,13 +19,17 @@ const AuthProvider = ({ children }: TPrivateRouteProps) => {
       await GET(API_BASE_URL + `refresh_token/${decryptedRefreshToken}`).then(
         (res: any) => {
           try {
-            console.log('result', res);
+            if (!res.success) {
+              // navigate("/login");
+              console.log("logout");
+
+              return;
+            }
             setAccessToken(res.data.data.token.access_token);
             setCookie("base", encryptData(res.data.data.token.refresh_token));
           } catch (error) {
             console.error(error);
-            // navigate("/login");
-          } 
+          }
         }
       );
     };

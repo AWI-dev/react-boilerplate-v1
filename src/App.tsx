@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -9,7 +9,16 @@ import PageNotFound from "./pages/Common/PageNotFound";
 import AuthProvider from "./Provider/AuthProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthHeaders } from "./lib/utils/getHeaders";
+import usePageHandler from "./hooks/usePageHandler";
 function App() {
+  const { getHeaders } = useAuthHeaders();
+
+  usePageHandler(() => {
+    console.log("Page is about to be refreshed!");
+    // Perform any action you want before page refresh
+  });
+
   return (
     <>
       <ToastContainer bodyClassName="font-body text-xs" />
