@@ -1,17 +1,13 @@
 import { useRef } from "react";
 import { useAccessTokenState } from "../lib/StateManager/storeState";
 import { RequestData } from "../lib/Type/systemTypes";
+import { useAuthHeaders } from "../lib/utils/getHeaders";
 
 const useCrud = () => {
 
-    const { accessToken } = useAccessTokenState();
+    const { getHeaders } = useAuthHeaders();
 
     const controllerRef = useRef<AbortController | null>(null);
-
-    const headers = {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
-    };
 
     const prepareAbortController = (isAbortController: boolean) => {
         if (isAbortController) {
@@ -23,31 +19,43 @@ const useCrud = () => {
     };
 
     const handleError = (error: any) => {
-        console.error("Error caught:", error?.message);
-        throw error;
+        return {
+            success: false,
+            message: error.message || "Network error occurred.",
+        };
     };
 
     //#region CRUD Methods
+
     const GET = async (endpoint: string, isAbortController: boolean = true) => {
         const signal = prepareAbortController(isAbortController);
-        console.log('accessToken', accessToken);
         try {
             const response = await fetch(endpoint, {
                 method: "GET",
-                headers,
+                headers: getHeaders(),
                 signal,
             });
-
             if (!response.ok) {
                 const errorData = await response.json();
                 handleError(errorData);
+                return {
+                    success: false,
+                    message: errorData.message || "Request failed.",
+                };
             }
-
-            return await response.json();
+            const data = await response.json();
+            return {
+                success: true,
+                data,
+            };
         } catch (error: any) {
-            handleError(error);
+            return {
+                success: false,
+                message: error.message || "Network error occurred.",
+            };
         }
     };
+
     const POST = async (
         endpoint: string,
         requestData: RequestData | FormData,
@@ -56,13 +64,12 @@ const useCrud = () => {
         const signal = prepareAbortController(isAbortController);
         const requestOptions: RequestInit = {
             method: "POST",
-            headers: requestData instanceof FormData ? {} : headers, // Do not set Content-Type for FormData
+            headers: requestData instanceof FormData ? {} : getHeaders(), // Do not set Content-Type for FormData
             body: requestData instanceof FormData ? requestData : JSON.stringify(requestData),
             signal,
         };
         try {
             const response = await fetch(endpoint, requestOptions);
-
             if (!response.ok) {
                 const errorData = await response.json();
                 handleError(errorData);

@@ -8,7 +8,7 @@ import useCrud from "../../hooks/useCrud";
 import useDataFetcher from "../../hooks/useDataFetcher";
 
 function AccountList() {
-  // const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`);
+  const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`,true);
 
   const [counter, setCounter] = useState(0);
   const { POST } = useCrud();
@@ -39,19 +39,20 @@ function AccountList() {
     });
   };
 
-  
   return (
     <>
       <Breadcrumb
         pageName="Account"
         items={[{ name: "Dashboard", path: "/" }, { name: "Account" }]}
       />
-
+      <ul>
+        {dataList?.map((item: any) => (
+          <li key={item.id}>{item.name} - {item.detail}</li>
+        ))}
+      </ul>
       <p>counter {counter}</p>
-
       <Input defaultValue={counter.toString()} />
       <Button onClick={() => setCounter((prev) => prev + 1)}>Click</Button>
-
       <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <Input
