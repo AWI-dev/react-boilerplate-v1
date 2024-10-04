@@ -14,23 +14,22 @@ const AuthProvider = ({ children }: TPrivateRouteProps) => {
   const { encryptData, decryptData } = useEncryption(SHARED_KEY);
   const { setCookie, getCookie } = useCookie();
   useEffect(() => {
-    console.log('accessToken', accessToken);
-    
     const fetchToken = async () => {
       const decryptedRefreshToken = decryptData(getCookie("base"));
       await GET(API_BASE_URL + `refresh_token/${decryptedRefreshToken}`).then(
         (res: any) => {
           try {
-            if (!res.success) {
-              // navigate("/login");
-              console.log("logout");
-
+            if(res.message == "Unable to refresh token."){
+              navigate("/login");
               return;
             }
+            console.log("result", res);
             setAccessToken(res.data.data.token.access_token);
             setCookie("base", encryptData(res.data.data.token.refresh_token));
           } catch (error) {
             console.error(error);
+            console.log("error", error);
+            
           }
         }
       );

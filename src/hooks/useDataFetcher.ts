@@ -30,5 +30,4 @@ const useDataFetcher = (endpoint: string, isPollingEnabled: boolean) => {
 
   return { data, isLoading: !data && !error, error };
 };
-
 export default useDataFetcher;
