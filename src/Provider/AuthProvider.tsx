@@ -14,6 +14,8 @@ const AuthProvider = ({ children }: TPrivateRouteProps) => {
   const { encryptData, decryptData } = useEncryption(SHARED_KEY);
   const { setCookie, getCookie } = useCookie();
   useEffect(() => {
+    console.log('accessToken', accessToken);
+    
     const fetchToken = async () => {
       const decryptedRefreshToken = decryptData(getCookie("base"));
       await GET(API_BASE_URL + `refresh_token/${decryptedRefreshToken}`).then(

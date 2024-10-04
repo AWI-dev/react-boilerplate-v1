@@ -55,7 +55,6 @@ function Auth() {
           showToast(res.message, "success");
           setToken(res.data.token.access_token, res.data.token.refresh_token);
           console.log("refresh_token", res.data.token.refresh_token);
-
           navigate("/accounts");
         } else {
           showToast(res.message, "error");
