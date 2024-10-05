@@ -9,20 +9,7 @@ import PageNotFound from "./pages/Common/PageNotFound";
 import AuthProvider from "./Provider/AuthProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuthHeaders } from "./lib/utils/getHeaders";
-import usePageHandler from "./hooks/usePageHandler";
-import { useAccessTokenState } from "./lib/StateManager/storeState";
 function App() {
-  const { getHeaders } = useAuthHeaders();
-
-  const { setAccessToken } = useAccessTokenState();
-
-  usePageHandler(() => {
-    console.log("Page is about to be refreshed!");
-    // Perform any action you want before page refresh
-    setAccessToken("sample token");
-  });
-
   return (
     <>
       <ToastContainer bodyClassName="font-body text-xs" />
