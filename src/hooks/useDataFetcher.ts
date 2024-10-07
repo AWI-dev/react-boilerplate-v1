@@ -17,7 +17,6 @@ const useDataFetcher = (endpoint: string, isPollingEnabled: boolean) => {
     [getHeaders]
   );
 
-  // Only trigger SWR if accessToken is not null or undefined
   const shouldFetch = !!accessToken;
 
   const { data, error } = useSWR(

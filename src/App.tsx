@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router";
 import Dashboard from "./pages/Dashboard/Dashboard";

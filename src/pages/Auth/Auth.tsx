@@ -6,7 +6,7 @@ import useCrud from "../../hooks/useCrud";
 import { TAuthProps } from "../../lib/Type/systemTypes";
 import useForm from "../../hooks/useForm";
 import { API_BASE_URL, SHARED_KEY } from "../../lib/constant";
-import sideImage from "../../assets/images/vlc.png";
+// import sideImage from "../../assets/images/vlc.png";
 import { Link, useNavigate } from "react-router-dom";
 import useToast from "../../hooks/useToast";
 import { useAccessTokenState } from "../../lib/StateManager/storeState";

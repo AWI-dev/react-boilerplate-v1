@@ -9,9 +9,33 @@ import useDataFetcher from "../../hooks/useDataFetcher";
 
 function AccountList() {
   const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`,true);
-
-  const [counter, setCounter] = useState(0);
   const { POST } = useCrud();
+
+
+  const baseFields = [
+    { uid: "area", label: "AREA" },
+    { uid: "name", label: "STORE" },
+    { uid: "ros", label: "ROS" },
+    { uid: "category_name", label: "CATEGORY" },
+    { uid: "sub_category_name", label: "SUB CATEGORY" },
+    { uid: "sub_sub_category_name", label: "SPECIFICS" },
+    { uid: "sub_sub_deviation_name", label: "DEVIATION DETAILS" },
+    { uid: "remarks", label: "REMARKS", sortable: false },
+    { uid: "year", label: "YEAR", sortable: false },
+    { uid: "wave", label: "WAVE", sortable: false }
+  ];
+  
+  const initialColumns = baseFields.map(field => field.uid);
+  
+  const columns = [
+    { name: "ID", uid: "id", sortable: true },
+    ...baseFields.map(field => ({
+      name: field.label,
+      uid: field.uid,
+      sortable: field.sortable !== false
+    }))
+  ];
+  
 
   const initialFormState: TAuthProps = {
     email: "",
@@ -30,8 +54,6 @@ function AccountList() {
       try {
         const response = fetch(API_BASE_URL + "refresh_token");
         const data = response;
-        console.log("data", data);
-
         // setAccessToken(data.accessToken);
       } catch (error) {
         console.error(error);
@@ -50,9 +72,7 @@ function AccountList() {
           <li key={item.id}>{item.name} - {item.detail}</li>
         ))}
       </ul>
-      <p>counter {counter}</p>
-      <Input defaultValue={counter.toString()} />
-      <Button onClick={() => setCounter((prev) => prev + 1)}>Click</Button>
+  
       <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <Input
