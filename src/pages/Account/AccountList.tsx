@@ -6,37 +6,22 @@ import { TAuthProps } from "../../lib/Type/systemTypes";
 import { API_BASE_URL } from "../../lib/constant";
 import useCrud from "../../hooks/useCrud";
 import useDataFetcher from "../../hooks/useDataFetcher";
+import useColumns from "../../hooks/useColumns";
 
 function AccountList() {
-  const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`,true);
+  const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`, true);
   const { POST } = useCrud();
 
-
   const baseFields = [
-    { uid: "area", label: "AREA" },
-    { uid: "name", label: "STORE" },
-    { uid: "ros", label: "ROS" },
-    { uid: "category_name", label: "CATEGORY" },
-    { uid: "sub_category_name", label: "SUB CATEGORY" },
-    { uid: "sub_sub_category_name", label: "SPECIFICS" },
-    { uid: "sub_sub_deviation_name", label: "DEVIATION DETAILS" },
-    { uid: "remarks", label: "REMARKS", sortable: false },
-    { uid: "year", label: "YEAR", sortable: false },
-    { uid: "wave", label: "WAVE", sortable: false }
+    { uid: "name", label: "Name", sortable: false },
+    { uid: "detail", label: "DETAIL", sortable: false },
   ];
-  
-  const initialColumns = baseFields.map(field => field.uid);
-  
-  const columns = [
-    { name: "ID", uid: "id", sortable: true },
-    ...baseFields.map(field => ({
-      name: field.label,
-      uid: field.uid,
-      sortable: field.sortable !== false
-    }))
-  ];
-  
 
+  const { initialColumns, columns } = useColumns(baseFields);
+
+
+  console.log('columns', columns , 'initialColumns', initialColumns);
+  
   const initialFormState: TAuthProps = {
     email: "",
     password: "",
@@ -69,10 +54,12 @@ function AccountList() {
       />
       <ul>
         {dataList?.map((item: any) => (
-          <li key={item.id}>{item.name} - {item.detail}</li>
+          <li key={item.id}>
+            {item.name} - {item.detail}
+          </li>
         ))}
       </ul>
-  
+
       <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <Input
