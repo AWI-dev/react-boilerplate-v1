@@ -8,6 +8,7 @@ import {
   TableRow,
   TableCell,
   SortDescriptor,
+  Spinner,
 } from "@nextui-org/react";
 import { API_BASE_URL } from "../../lib/constant";
 import useDataFetcher from "../../hooks/useDataFetcher";
@@ -17,7 +18,7 @@ import useTable from "../../hooks/useTable";
 import TableFilter from "../../components/table/TableFilter";
 
 function AccountList() {
-  const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`, true);
+  const { data: dataList,isLoading } = useDataFetcher(`${API_BASE_URL}products`, true);
   const baseFields = [
     { uid: "name", label: "name", sortable: false },
     { uid: "detail", label: "detail", sortable: false },
@@ -137,7 +138,8 @@ function AccountList() {
           )}
         </TableHeader>
         <TableBody
-          loadingContent={"LOADING"}
+          isLoading={true}
+          loadingContent={<Spinner label="Loading..." />}
           emptyContent={
             <div className="flex justify-center py-10">
               {/* <img src={NoData} /> */}
