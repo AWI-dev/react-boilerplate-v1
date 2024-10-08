@@ -19,8 +19,8 @@ import TableFilter from "../../components/table/TableFilter";
 function AccountList() {
   const { data: dataList } = useDataFetcher(`${API_BASE_URL}products`, true);
   const baseFields = [
-    { uid: "name", label: "Name", sortable: false },
-    { uid: "detail", label: "DETAIL", sortable: false },
+    { uid: "name", label: "name", sortable: false },
+    { uid: "detail", label: "detail", sortable: false },
   ];
 
   const { initialColumns, columns } = useColumns(baseFields);
@@ -125,9 +125,9 @@ function AccountList() {
         <TableHeader columns={headerColumns}>
           {(column: any) => (
             <TableColumn
-              className={
-                column.uid === "action" ? "text-end pr-10" : "text-start"
-              }
+              className={`uppercase
+                ${column.uid} === "action" ? "text-end pr-10" : "text-start"
+              `}
               key={column.uid}
               align={column.uid === "action" ? "end" : "start"}
               allowsSorting={column.sortable}
