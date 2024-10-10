@@ -16,9 +16,15 @@ import useColumns from "../../hooks/useColumns";
 import CustomPagination from "../../components/common/CustomPagination";
 import useTable from "../../hooks/useTable";
 import TableFilter from "../../components/table/TableFilter";
+import { Label } from "../../components/ui/label";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../../components/ui/sheet";
+import { Button } from "../../components/ui/button";
 
 function AccountList() {
-  const { data: dataList,isLoading } = useDataFetcher(`${API_BASE_URL}products`, true);
+  const { data: dataList, isLoading } = useDataFetcher(
+    `${API_BASE_URL}products`,
+    true
+  );
   const baseFields = [
     { uid: "name", label: "name", sortable: false },
     { uid: "detail", label: "detail", sortable: false },
@@ -108,6 +114,22 @@ function AccountList() {
         pageName="Account"
         items={[{ name: "Dashboard", path: "/" }, { name: "Account" }]}
       />
+
+      <Sheet>
+        <SheetTrigger>Open</SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Are you absolutely sure?</SheetTitle>
+            <SheetDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+
+              <Button variant="outline" size={"sm"}>Button</Button>
+
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
 
       <Table
         isHeaderSticky

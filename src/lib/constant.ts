@@ -7,3 +7,5 @@ export const API_BASE_URL = isProduction ? "https://boiler-api.saastemp.site/api
 
 
 export const SHARED_KEY = "e1Tj9ujYluwL9J3Ei5EemRugYYSyioLaKFYsnFgbEtY=";
+
+
