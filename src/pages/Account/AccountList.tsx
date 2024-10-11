@@ -9,6 +9,7 @@ import {
   TableCell,
   SortDescriptor,
   Spinner,
+  Button,
 } from "@nextui-org/react";
 import { API_BASE_URL } from "../../lib/constant";
 import useDataFetcher from "../../hooks/useDataFetcher";
@@ -17,8 +18,21 @@ import CustomPagination from "../../components/common/CustomPagination";
 import useTable from "../../hooks/useTable";
 import TableFilter from "../../components/table/TableFilter";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../../components/ui/sheet";
+import withSheet from "../../components/hoc/withSheet";
+
 function AccountList() {
-  const { data: dataList,isLoading } = useDataFetcher(`${API_BASE_URL}products`, true);
+  const { data: dataList, isLoading } = useDataFetcher(
+    `${API_BASE_URL}products`,
+    true
+  );
   const baseFields = [
     { uid: "name", label: "name", sortable: false },
     { uid: "detail", label: "detail", sortable: false },
@@ -102,11 +116,28 @@ function AccountList() {
   );
   //#endregion
 
+  const DeleteAccountComponent = () => {
+    return (
+      <>
+        <p>Are you sure you want to delete your account?</p>
+        <button className="btn btn-danger">Confirm Delete</button>
+      </>
+    );
+  };
+
+  const DeleteAccountWithSheet = withSheet(DeleteAccountComponent);
+
   return (
     <>
       <Breadcrumb
         pageName="Account"
         items={[{ name: "Dashboard", path: "/" }, { name: "Account" }]}
+      />
+
+      <DeleteAccountWithSheet
+        triggerText="Add"
+        title="Create Account"
+        description="Create a new account"
       />
 
       <Table
