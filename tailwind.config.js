@@ -13,12 +13,11 @@ export default {
         body: ['Poppins', 'sans'],
       },
       colors: {
-        cta: "#1B3140",
-        background: "#EFEFEF",
-        csPrimary: "#5B839A",
-        csSecondary: "#F97126",
-        accentwhite: "#FCF9F6",
-        accent: "#FFE7AD",
+        cta: "#4dbbd4",
+        background: "#e2f9ff",
+        csPrimary: "#0a308b",
+        csSecondary: "#fdad02",
+        accent: "#2fbad1",
       }
     },
   },
